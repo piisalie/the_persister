@@ -4,7 +4,7 @@ require_relative '../lib/the_persister/pg_wrapper'
 module ThePersister
   describe 'PGWrapper' do
 
-    def build_persister(opts)
+    def build_pg_wrapper(opts)
       PGWrapper.new(opts)
     end
 
@@ -22,7 +22,7 @@ module ThePersister
         test_object = ExampleObj.new( name: 'Frank', age: 20 )
         test_db     = mock_save_request(test_object)
 
-        persister = build_persister( { db_connection: test_db } )
+        persister = build_pg_wrapper( { db_connection: test_db } )
         id        = persister.save(test_object)
 
         assert test_db.verify
@@ -32,7 +32,7 @@ module ThePersister
         test_object = ExampleObj.new( name: 'Frank', age: 20 )
         test_db     = mock_save_request(test_object)
 
-        persister = build_persister( { db_connection: test_db } )
+        persister = build_pg_wrapper( { db_connection: test_db } )
 
         test_object.id.must_equal(nil)
         persister.save(test_object)
@@ -56,7 +56,7 @@ module ThePersister
         test_object_class = ExampleObj
         obj_atts          = { age: 32, name: 'Frank', id: 2 }
         test_db           = mock_load_request(test_object_class, obj_atts)
-        persister         = build_persister( { db_connection: test_db } )
+        persister         = build_pg_wrapper( { db_connection: test_db } )
 
         persister.find(test_object_class, obj_atts[:id])
         test_db.verify
@@ -66,7 +66,7 @@ module ThePersister
         test_object_class = ExampleObj
         obj_atts          = { age: 32, name: 'Frank', id: 2 }
         test_db           = mock_load_request(test_object_class, obj_atts)
-        persister         = build_persister( { db_connection: test_db } )
+        persister         = build_pg_wrapper( { db_connection: test_db } )
 
         result = persister.find(test_object_class, obj_atts[:id])
         assert_equal test_object_class,  result.class
