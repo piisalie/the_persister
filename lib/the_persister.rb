@@ -1,3 +1,4 @@
+require 'pg'
 require_relative 'the_persister/hash_wrapper'
 require_relative 'the_persister/pg_wrapper'
 

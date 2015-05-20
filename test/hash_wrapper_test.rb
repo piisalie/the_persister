@@ -62,7 +62,7 @@ module ThePersister
 
         assert_equal obj_atts[:name], record.name
         assert_equal obj_atts[:age],  record.age
-        assert_equal obj_atts[:id],   record.id
+        assert_equal 1,               record.id
       end
     end
 
