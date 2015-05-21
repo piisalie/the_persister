@@ -12,9 +12,7 @@ module ThePersister
     end
 
     def find(object_class, id)
-      obj = object_class.new(@db[object_class.table_name][id])
-      obj.id = id
-      obj
+      object_class.new(@db[object_class.table_name][id].merge(id: id))
     end
 
     private
