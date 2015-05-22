@@ -20,6 +20,7 @@ module ThePersister
     def insert(object)
       @db[object.class.table_name] << object.attributes
       object.id = @db[object.class.table_name].count - 1
+      object
     end
 
     def update(object)

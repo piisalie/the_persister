@@ -29,10 +29,9 @@ module ThePersister
         test_obj = ExampleObj.new( name: "Charlie", age: 35 )
         hash_db  = build_hasher
 
-        id = hash_db.save(test_obj)
+        result = hash_db.save(test_obj)
 
-        assert_equal 1, id
-        assert_equal id, test_obj.id
+        assert_equal 1, result.id
       end
 
       it 'updates existing records' do
@@ -56,13 +55,14 @@ module ThePersister
         test_object_class = ExampleObj
         obj_atts          = { name: "Charlie", age: 35}
         hash_db           = build_hasher
-        id = hash_db.save(ExampleObj.new(obj_atts))
+        obj               = test_object_class.new(obj_atts)
+        hash_db.save(obj)
 
-        record = hash_db.find(test_object_class, id)
+        record = hash_db.find(test_object_class, obj.id)
 
         assert_equal obj_atts[:name], record.name
         assert_equal obj_atts[:age],  record.age
-        assert_equal 1,               record.id
+        assert_equal obj.id,          record.id
       end
     end
 
