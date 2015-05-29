@@ -76,5 +76,10 @@ module ThePersister
       end
     end
 
+    describe 'destruction!' do
+      it 'it generates the correct destroy query'
+      it 'it returns the object that was destroyed'
+    end
+
   end
 end

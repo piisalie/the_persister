@@ -12,7 +12,14 @@ module ThePersister
     end
 
     def find(object_class, id)
+      return nil unless @db[object_class.table_name][id]
       object_class.new(@db[object_class.table_name][id].merge(id: id))
+    end
+
+    def destroy(object)
+      old_record = @db[object.class.table_name].delete_at(object.id)
+      old_record.each { |att, val| object.public_send(att.to_s + "=", val) }
+      object
     end
 
     private

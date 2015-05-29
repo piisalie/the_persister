@@ -66,5 +66,32 @@ module ThePersister
       end
     end
 
+    describe 'destruction!' do
+      it 'removes a record from the hash' do
+        test_object_class = ExampleObj
+        obj_atts          = { name: "Charlie", age: 35}
+        hash_db           = build_hasher
+        obj               = test_object_class.new(obj_atts)
+        hash_db.save(obj)
+
+        hash_db.destroy(obj)
+
+        assert_equal nil, hash_db.find(test_object_class, obj.id)
+      end
+
+      it 'returns the record that was destroyed' do
+        test_object_class = ExampleObj
+        obj_atts          = { name: "Charlie", age: 35}
+        hash_db           = build_hasher
+        obj               = test_object_class.new(obj_atts)
+        hash_db.save(obj)
+
+        destroyed_obj = hash_db.destroy(obj)
+        assert_equal obj.name, destroyed_obj.name
+        assert_equal obj.age,  destroyed_obj.age
+        assert_equal obj.id,   destroyed_obj.id
+      end
+    end
+
   end
 end
