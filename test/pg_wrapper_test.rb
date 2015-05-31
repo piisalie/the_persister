@@ -54,7 +54,7 @@ module ThePersister
 
       it 'can generate the correct find/load query' do
         test_object_class = ExampleObj
-        obj_atts          = { age: 32, name: 'Frank', id: 2 }
+        obj_atts          = { 'age' => 32, 'name' => 'Frank', 'id' => 2 }
         test_db           = mock_load_request(test_object_class, obj_atts)
         persister         = build_pg_wrapper( { db_connection: test_db } )
 
@@ -64,15 +64,15 @@ module ThePersister
 
       it 'returns a hydrated object' do
         test_object_class = ExampleObj
-        obj_atts          = { age: 32, name: 'Frank', id: 2 }
+        obj_atts          = { 'age' => 32, 'name' => 'Frank', 'id' => 2 }
         test_db           = mock_load_request(test_object_class, obj_atts)
         persister         = build_pg_wrapper( { db_connection: test_db } )
 
         result = persister.find(test_object_class, obj_atts[:id])
-        assert_equal test_object_class,  result.class
-        assert_equal obj_atts[:age],     result.age
-        assert_equal obj_atts[:name],    result.name
-        assert_equal obj_atts[:id],      result.id
+        assert_equal test_object_class, result.class
+        assert_equal obj_atts['age'],   result.age
+        assert_equal obj_atts['name'],  result.name
+        assert_equal obj_atts['id'],    result.id
       end
     end
 
