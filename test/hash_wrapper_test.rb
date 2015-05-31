@@ -46,7 +46,7 @@ module ThePersister
           { name: "Charlie", age: 36 },
           hash_db.db.fetch(test_obj.class.table_name)[test_obj.id]
         )
-        assert_equal 3, test_obj.attributes.fetch(:id)
+        assert_equal 3, test_obj.to_hash.fetch(:id)
       end
     end
 

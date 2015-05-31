@@ -27,13 +27,13 @@ module ThePersister
     private
 
     def insert(object)
-      @db[object.class.table_name] << object.attributes
+      @db[object.class.table_name] << object.to_hash
       object.id = @db[object.class.table_name].count - 1
       object
     end
 
     def update(object)
-      @db[object.class.table_name][object.id] = remove_id(object.attributes)
+      @db[object.class.table_name][object.id] = remove_id(object.to_hash)
     end
 
     def remove_id(attributes)

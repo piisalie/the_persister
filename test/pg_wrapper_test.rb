@@ -13,7 +13,7 @@ module ThePersister
         test_db     = Minitest::Mock.new
         test_db.expect(:exec, [{"id" => 2}]) do |arg1, arg2|
           arg1 == "INSERT INTO #{test_object.class.table_name} (name, age) VALUES ($1, $2) RETURNING id;" &&
-            arg2 == test_object.attributes.values
+            arg2 == test_object.to_hash.values
         end
         test_db
       end

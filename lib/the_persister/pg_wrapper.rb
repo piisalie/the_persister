@@ -10,9 +10,9 @@ module ThePersister
     end
 
     def save(object)
-      atts = object.attributes.keys
+      atts = object.to_hash.keys
       resulting = db.exec("INSERT INTO #{object.class.table_name} (#{atts.join(', ')}) VALUES (#{positions(atts)}) RETURNING id;",
-        object.attributes.values
+        object.to_hash.values
       )
       object.id = resulting[0]['id']
       object
