@@ -41,11 +41,11 @@ module ThePersister
     end
 
     describe 'loading' do
-      def mock_load_request(test_object_class, obj_atts)
+      def mock_load_request(test_object_class, obj_atts, response=[ obj_atts ] )
         test_db  = Minitest::Mock.new
         columns  = test_object_class.attributes.map { |a| "\"#{a.to_s}\""}.join(", ")
 
-        test_db.expect(:exec, [obj_atts]) do |arg1, arg2|
+        test_db.expect(:exec, response) do |arg1, arg2|
           arg1 == "SELECT #{columns} FROM #{test_object_class.table_name} WHERE id = $1 LIMIT 1;" &&
             arg2 == [ obj_atts[:id] ]
         end
@@ -73,6 +73,15 @@ module ThePersister
         assert_equal obj_atts['age'],   result.age
         assert_equal obj_atts['name'],  result.name
         assert_equal obj_atts['id'],    result.id
+      end
+
+      it 'raises a helpful error if the record cannot be found' do
+        test_object_class = ExampleObj
+        obj_atts          = { 'age' => 32, 'name' => 'Frank', 'id' => 2 }
+        test_db           = mock_load_request(test_object_class, obj_atts, [ ])
+        persister         = build_pg_wrapper( { db_connection: test_db } )
+
+        assert_raises(CouldNotFindRecordError) { persister.find(test_object_class, obj_atts[:id]) }
       end
     end
 

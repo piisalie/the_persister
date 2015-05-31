@@ -17,7 +17,9 @@ module ThePersister
     end
 
     def find(object_class, id)
-      atts = db.exec("SELECT #{columns(object_class)} FROM #{object_class.table_name} WHERE id = $1 LIMIT 1;", [ id ])[0]
+      atts = db.exec("SELECT #{columns(object_class)} FROM #{object_class.table_name} WHERE id = $1 LIMIT 1;", [ id ]).first
+      raise CouldNotFindRecordError, "Could not find #{object_class} with id: #{id}" unless atts
+
       object_class.new(symbolize_keys(atts))
     end
 
@@ -41,4 +43,5 @@ module ThePersister
     end
   end
 
+  CouldNotFindRecordError = Class.new(RuntimeError)
 end
