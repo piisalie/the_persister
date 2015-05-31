@@ -15,6 +15,12 @@ module ThePersister
       end
     end
 
+    def initialize( atts = self.class.attributes.merge({id: nil}) )
+      atts.each do |att, value|
+        public_send("#{att}=", value)
+      end
+    end
+
     def to_hash
       atts = Hash.new
       self.class.attributes.each do |att|
