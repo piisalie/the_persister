@@ -4,7 +4,7 @@ The Persister
 ## NOTE: This project is still a work in progress
 todo before release:
 - [ ] refactor / Make tests more readable
-- [ ] add destroy
+- [x] add destroy
 - [ ] add a gemspec
 - [ ] clean up the example object, and be more clear about the requirements for persistence
 - [ ] finish the readme

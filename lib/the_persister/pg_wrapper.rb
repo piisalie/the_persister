@@ -21,6 +21,11 @@ module ThePersister
       object_class.new(atts)
     end
 
+    def destroy(object)
+      db.exec("DELETE FROM #{object.class.table_name} WHERE id = $1;", [ object.id ])
+      object
+    end
+
     private
 
     def columns(object_class)

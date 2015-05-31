@@ -87,6 +87,7 @@ module ThePersister
         hash_db.save(obj)
 
         destroyed_obj = hash_db.destroy(obj)
+
         assert_equal obj.name, destroyed_obj.name
         assert_equal obj.age,  destroyed_obj.age
         assert_equal obj.id,   destroyed_obj.id
