@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module ThePersister
   class HashWrapper
 
@@ -12,7 +14,7 @@ module ThePersister
     end
 
     def find(object_class, id)
-      return nil unless @db[object_class.table_name][id]
+      raise CouldNotFindRecordError, "Could not find #{object_class} with id: #{id}" unless @db[object_class.table_name][id]
       object_class.new(@db[object_class.table_name][id].merge(id: id))
     end
 

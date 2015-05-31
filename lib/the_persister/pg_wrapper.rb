@@ -1,3 +1,5 @@
+require_relative 'errors'
+
 module ThePersister
   class PGWrapper
 
@@ -43,5 +45,4 @@ module ThePersister
     end
   end
 
-  CouldNotFindRecordError = Class.new(RuntimeError)
 end

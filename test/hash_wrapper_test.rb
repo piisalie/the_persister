@@ -76,7 +76,7 @@ module ThePersister
 
         hash_db.destroy(obj)
 
-        assert_equal nil, hash_db.find(test_object_class, obj.id)
+        assert_raises(CouldNotFindRecordError) {hash_db.find(test_object_class, obj.id) }
       end
 
       it 'returns the record that was destroyed' do
