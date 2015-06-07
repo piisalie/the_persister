@@ -46,7 +46,8 @@ variant in (hopefully) the same ways. It also requires properly setup models.
 ## NOTE: This project is still a work in progress
 todo before release:
 - [ ] refactor tests for less less duplication
-- [ ] fix pg_wrapper save so it can update an existing record
+- [ ] refactor pg_wrapper code
+- [x] fix pg_wrapper save so it can update an existing record
 - [x] add destroy
 - [x] add a gemspec
 - [x] clean up the example object, and be more clear about the requirements for persistence

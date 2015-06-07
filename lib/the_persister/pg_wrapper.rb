@@ -10,12 +10,7 @@ module ThePersister
     end
 
     def save(object)
-      atts = object.to_hash.keys
-      resulting = db.exec("INSERT INTO #{object.class.table_name} (#{atts.join(', ')}) VALUES (#{positions(atts)}) RETURNING id;",
-        object.to_hash.values
-      )
-      object.id = resulting[0]['id']
-      object
+      object.id ? update(object) : insert(object)
     end
 
     def find(object_class, id)
@@ -31,6 +26,24 @@ module ThePersister
     end
 
     private
+
+    def insert(object)
+      atts = object.to_hash.keys
+      resulting = db.exec("INSERT INTO #{object.class.table_name} (#{atts.join(', ')}) VALUES (#{positions(atts)}) RETURNING id;",
+        object.to_hash.values
+      )
+      object.id = resulting[0]['id']
+      object
+    end
+
+    def update(object)
+      atts = object.to_hash
+      atts.delete(:id)
+      db.exec("UPDATE #{object.class.table_name} SET (#{atts.keys.join(", ")}) = (#{positions(atts)}) WHERE id = #{object.id};",
+        atts.values
+      )
+      object
+    end
 
     def columns(object_class)
       object_class.attributes.map { |a| "\"#{a.to_s}\""}.join(', ')

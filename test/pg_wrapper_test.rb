@@ -38,6 +38,20 @@ module ThePersister
         persister.save(test_object)
         test_object.id.must_equal(2)
       end
+
+      it 'can generate an update query' do
+        test_obj = ExampleObj.new( name: "Frank", age: 21, id: 2)
+        test_db  = Minitest::Mock.new
+        test_db.expect(:exec, test_obj) do |arg1, arg2|
+          arg1 == "UPDATE #{test_obj.class.table_name} SET (name, age) = ($1, $2) WHERE id = #{test_obj.id};"
+            arg2 == [ "Frank", 21]
+        end
+
+        persister = build_pg_wrapper( { db_connection: test_db })
+
+        persister.save(test_obj)
+        assert test_db.verify
+      end
     end
 
     describe 'loading' do
